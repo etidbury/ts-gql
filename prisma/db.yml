@@ -1,0 +1,9 @@
+databases:
+  default:
+      connector: mysql # or 'postgres'
+      host: MYSQL_HOST
+      port: 3306 # or '5432' for postgres
+      user: MYSQL_USER
+      password: MYSQL_PASSWORD
+      migrations: true
+      active: true

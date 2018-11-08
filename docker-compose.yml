@@ -1,0 +1,28 @@
+version: '3'
+services:
+  prisma:
+    build:
+      context: ./prisma/
+      args:
+        MYSQL_DATABASE: ${MYSQL_DATABASE}
+        MYSQL_HOST: ${MYSQL_HOST}
+        MYSQL_USER: ${MYSQL_USER}
+        MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+        PRISMA_MANAGEMENT_API_SECRET: ${PRISMA_MANAGEMENT_API_SECRET}
+    ports:
+    - "4466:4466"
+    # environment:
+    #   - MYSQL_DATABASE='db-local'
+    #   - MYSQL_HOST='localhost'
+    #   - MYSQL_USER='root'
+    #   - MYSQL_PASSWORD=''
+  mysql:
+    image: mysql:5.7
+    restart: on-failure
+    environment:
+      MYSQL_DATABASE: 'db-local'
+      MYSQL_ROOT_PASSWORD: prisma
+    volumes:
+      - mysql:/var/lib/mysql
+volumes:
+  mysql:
