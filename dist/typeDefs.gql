@@ -1,0 +1,7 @@
+type Query {
+  hello: HelloPayload
+}
+
+type HelloPayload {
+  name: String
+}

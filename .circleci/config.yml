@@ -1,0 +1,100 @@
+version: 2
+jobs:
+  build:
+    environment:
+      # @link https://github.com/etidbury/ts-gql-helpers/blob/master/docs/env.md
+
+      # SECRET!
+      # MYSQL_HOST: ''
+      # MYSQL_USER: ''
+      # MYSQL_PASSWORD: ''
+
+      PORT: '3000'
+      # USE_SWAGGER: 'true'
+
+
+    docker:
+      #- image: circleci/node:10-browsers
+      - image: circleci/node:10
+      #- image: docker:17.05.0-ce-git
+    steps:
+      #- setup_remote_docker
+      - run:
+          name: Check GITHUB_TOKEN is set
+          command: |
+              if [ -z "$GITHUB_TOKEN" ]; then
+                echo "GITHUB_TOKEN needs to be defined in project" && exit 1
+              fi
+              
+      - checkout
+
+      # Download and cache dependencies
+      - restore_cache:
+          keys:
+          - v1-dependencies-{{ checksum "package.json" }}
+          # fallback to using the latest cache if no exact match is found
+          - v1-dependencies-
+
+      - run: sudo yarn global add tidil
+
+      - save_cache:
+          paths:
+            - node_modules
+          key: v1-dependencies-{{ checksum "package.json" }}
+
+      - run:
+          name: Yarn install
+          command: |
+              yarn
+      - run:
+          name: Working directory info
+          command: |
+              ls -la
+              pwd
+      - run:
+          name: Set Git Credentials
+          command: |
+              git config --global user.email "bot@circleci.com"
+              git config --global user.name "CircleCI"
+
+      # - run:
+      #     name: Initialise DB
+      #     command: |
+      #         yarn db:migrate
+      #         yarn db:seed     
+      - run:
+          name: Deployment
+          command: |
+
+           if [ "${CIRCLE_BRANCH}" == "staging" ]; then
+              echo "Setting staging environment..."
+
+              export USE_SWAGGER='true'
+              export MYSQL_DB_NAME='jwtauth_test_staging'
+
+            elif [ "${CIRCLE_BRANCH}" == "production" ]; then
+
+              echo "Setting production environment..."
+              export MYSQL_DB_NAME='jwtauth_test_production'
+              
+            else
+              export MYSQL_DB_NAME='jwtauth_test_dev'
+              export MYSQL_SYNC='true'
+              export FIXTURES='true'
+            fi
+            
+            # @link https://github.com/etidbury/ts-gql-helpers/blob/master/docs/circleci.md
+            sh ./node_modules/@etidbury/ts-gql-helpers/util/circleci/default.sh
+
+workflows:
+  version: 2
+  build-and-deploy:
+    jobs:
+      - build:
+          filters:
+            branches:
+              only:
+                - edd
+                - eddie
+                - staging
+                - production
