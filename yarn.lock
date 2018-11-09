@@ -705,10 +705,10 @@
     tpl-lib-helpers "^0.0.2"
     url-join "4.0.0"
 
-"@etidbury/ts-gql-helpers@^0.0.5":
-  version "0.0.5"
-  resolved "https://registry.yarnpkg.com/@etidbury/ts-gql-helpers/-/ts-gql-helpers-0.0.5.tgz#13e759b1ba85cc7ab7f4afe79e6c9edeb0f9bb21"
-  integrity sha512-ZRWmGFTqBtOvkNko58Bl1H2fyWz6Wfy0m1KPmQZiGJ9U6jU2N7GWVqzeIQPcdRpLtHLMq+3cymiyicclB6kEHg==
+"@etidbury/ts-gql-helpers@^0.0.7":
+  version "0.0.7"
+  resolved "https://registry.yarnpkg.com/@etidbury/ts-gql-helpers/-/ts-gql-helpers-0.0.7.tgz#e5b5aede1e24496ca9f6f590cb2d9deacc52e366"
+  integrity sha512-FoLsyFVj5NR8YWG9HvQ5307xqAXjtcV1bSuyos59UCzxCLUMiG1pFh+59gp9VFudmRtI7Huw9WjGhkoCzVJiDg==
   dependencies:
     "@etidbury/jwtauth" "^0.0.5"
     apollo-server-express "^2.2.0"
@@ -800,6 +800,11 @@
   dependencies:
     "@types/connect" "*"
     "@types/node" "*"
+
+"@types/chai@^4.1.7":
+  version "4.1.7"
+  resolved "https://registry.yarnpkg.com/@types/chai/-/chai-4.1.7.tgz#1b8e33b61a8c09cbe1f85133071baa0dbf9fa71a"
+  integrity sha512-2Y8uPt0/jwjhQ6EiluT0XCri1Dbplr0ZxfFXUz+ye13gaqE8u5gL5ppao1JrUYr9cIip5S6MvQzBS7Kke7U9VA==
 
 "@types/concat-stream@^1.6.0":
   version "1.6.0"

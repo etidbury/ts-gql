@@ -2,6 +2,5 @@ import { prisma } from '../src/generated/prisma-client'
 
 test('Resolve users', async () => {
     const users = await prisma.users()
-    expect(users.length).toBe(1)
-    expect(users[0].name).toBe('Alice')
+    expect(users.length).toBeGreaterThanOrEqual(1)
 })

@@ -1,7 +1,7 @@
 /* eslint-env jest */
 require('dotenv').config()
 import axios from 'axios'
-import urljoin from 'url-join'
+import * as urljoin from 'url-join'
 import { assert } from 'chai'
 
 const {
@@ -16,8 +16,9 @@ describe('Server environment has been setup correctly for tests', () => {
 
     it('Check development server is up', async () => {
 
+        const baseURL=urljoin(clientUrl,'/')
         const { data } = await axios.get(
-            urljoin(clientUrl,'/')
+            baseURL
         ).catch((err)=>{
 
             console.error("Make sure server is running first!")
