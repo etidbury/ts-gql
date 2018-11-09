@@ -5,6 +5,9 @@ export default {
     hello: async (_, __, { req }) => {
       return { name: "world" }
     },
+    users: async (_, __, { req,prisma }) => {
+      return prisma.users()
+    },
   },
   // Mutation: {
   //   // register: async (_, { email, password }) => {

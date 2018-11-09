@@ -1,7 +1,13 @@
 version: '3'
+
 services:
   prisma:
+    network_mode: "host"
+    depends_on:
+      - mysql
+    restart: always
     build:
+      dockerfile: /Users/edwardtidbury/Documents/ts-gql-helpers.git/prisma/Dockerfile
       context: ./prisma/
       args:
         MYSQL_DATABASE: ${MYSQL_DATABASE}
@@ -20,8 +26,10 @@ services:
     image: mysql:5.7
     restart: on-failure
     environment:
-      MYSQL_DATABASE: 'db-local'
-      MYSQL_ROOT_PASSWORD: prisma
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_ROOT_PASSWORD: ${MYSQL_PASSWORD}
     volumes:
       - mysql:/var/lib/mysql
 volumes:

@@ -1,7 +1,9 @@
+
 type HelloPayload {
   name:String
 }
 
 type Query {
-  hello:HelloPayload
+  hello:HelloPayload,
+  users:[User!]
 }
