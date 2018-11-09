@@ -372,7 +372,6 @@ export type Int = number;
 
 export const Prisma = makePrismaClientClass<ClientConstructor<Prisma>>({
   typeDefs,
-  endpoint: `${process.env["PRISMA_URL"]}`,
-  secret: `${process.env["PRISMA_SECRET"]}`
+  endpoint: `${process.env["PRISMA_URL"]}`
 });
 export const prisma = new Prisma();

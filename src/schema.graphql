@@ -1,9 +1,18 @@
+type User {
+  id: ID!
+  name: String!
+  email: String
+}
 
 type HelloPayload {
   name:String
 }
 
+type Mutation {
+  createUser(name:String!):User!
+}
+
 type Query {
   hello:HelloPayload,
-  users:[User!]
+  users:[User]
 }

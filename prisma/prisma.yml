@@ -1,6 +1,6 @@
 endpoint: ${env:PRISMA_URL}
 datamodel: 
-  - datamodel.graphql
+  - datamodel.prisma
 generate:
   - generator: typescript-client
     output: ../src/generated/prisma-client/
@@ -13,6 +13,6 @@ disableAuth: true
 seed:
   import: seed.graphql
 
-hooks:
-  post-deploy:
-    - graphql get-schema -p prisma
+# hooks:
+#   post-deploy:
+#     - graphql get-schema -p prisma
