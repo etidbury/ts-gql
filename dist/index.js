@@ -1,2 +1,2 @@
-require('/Users/edwardtidbury/Documents/ts-gql-helpers.git/util/init.js')();
+require('@etidbury/ts-gql-helpers/util/init')();
 //# sourceMappingURL=index.js.map

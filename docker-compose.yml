@@ -7,8 +7,8 @@ services:
       - mysql
     restart: always
     build:
-      dockerfile: /Users/edwardtidbury/Documents/ts-gql-helpers.git/prisma/Dockerfile
-      context: ./prisma/
+      dockerfile: ../node_modules/@etidbury/ts-gql-helpers/prisma/Dockerfile
+      context: ./prisma
       args:
         MYSQL_DATABASE: ${MYSQL_DATABASE}
         MYSQL_HOST: ${MYSQL_HOST}

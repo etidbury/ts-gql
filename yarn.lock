@@ -705,20 +705,25 @@
     tpl-lib-helpers "^0.0.2"
     url-join "4.0.0"
 
-"@etidbury/ts-gql-helpers@^0.0.3":
-  version "0.0.3"
-  resolved "https://registry.yarnpkg.com/@etidbury/ts-gql-helpers/-/ts-gql-helpers-0.0.3.tgz#b37b2062484b5ed1696fa6d41675205253e47da5"
-  integrity sha512-8PRnUVzxNyVCNW6N0bQBxPUL6jqJXsKTs92+6A8iJxctD91u2doNKRrjleaw554o53J5+L9iaKu2oeSdznLMIg==
+"@etidbury/ts-gql-helpers@^0.0.5":
+  version "0.0.5"
+  resolved "https://registry.yarnpkg.com/@etidbury/ts-gql-helpers/-/ts-gql-helpers-0.0.5.tgz#13e759b1ba85cc7ab7f4afe79e6c9edeb0f9bb21"
+  integrity sha512-ZRWmGFTqBtOvkNko58Bl1H2fyWz6Wfy0m1KPmQZiGJ9U6jU2N7GWVqzeIQPcdRpLtHLMq+3cymiyicclB6kEHg==
   dependencies:
     "@etidbury/jwtauth" "^0.0.5"
+    apollo-server-express "^2.2.0"
     cors "2.8.4"
     dotenv "^6.1.0"
+    dotenv-safe "^6.1.0"
+    express "^4.16.4"
+    express-routemap "^1.1.0"
     graphql "^14.0.2"
     graphql-tools "^4.0.2"
     merge-graphql-schemas "^1.5.7"
     path "^0.12.7"
     pino "^5.7.0"
     pino-pretty "^2.2.1"
+    prisma-binding "^2.1.6"
     url-join "4.0.0"
   optionalDependencies:
     display-notification "^2.0.0"
@@ -1168,7 +1173,7 @@ apollo-server-errors@2.2.0:
   resolved "https://registry.yarnpkg.com/apollo-server-errors/-/apollo-server-errors-2.2.0.tgz#5b452a1d6ff76440eb0f127511dc58031a8f3cb5"
   integrity sha512-gV9EZG2tovFtT1cLuCTavnJu2DaKxnXPRNGSTo+SDI6IAk6cdzyW0Gje5N2+3LybI0Wq5KAbW6VLei31S4MWmg==
 
-apollo-server-express@2.2.0:
+apollo-server-express@2.2.0, apollo-server-express@^2.2.0:
   version "2.2.0"
   resolved "https://registry.yarnpkg.com/apollo-server-express/-/apollo-server-express-2.2.0.tgz#52ebe344c463832dd3e02fd4ea5f0ad3edf59058"
   integrity sha512-E6WpImvCHKR9MHs64gTHhMrehk6/1NRE2+bblsHZg7ot8Iy6hVmzsCIzSmlPYh5uozpcyeRdC1pV0nwERtQKog==
@@ -2689,6 +2694,13 @@ dot-prop@^4.1.0:
   dependencies:
     is-obj "^1.0.0"
 
+dotenv-safe@^6.1.0:
+  version "6.1.0"
+  resolved "https://registry.yarnpkg.com/dotenv-safe/-/dotenv-safe-6.1.0.tgz#df6e72ced7d5bcfd9d870c9f656962a02197337b"
+  integrity sha512-O02OUTS+XmoRNZR4kRjJ9jlUGvQoXpMeTVVEBc8hUtgvPTgVZpsZH7TOocq4RVDpPrs2xGPwj6gIWjqRX+ErHA==
+  dependencies:
+    dotenv "^6.1.0"
+
 dotenv@^4.0.0:
   version "4.0.0"
   resolved "https://registry.yarnpkg.com/dotenv/-/dotenv-4.0.0.tgz#864ef1379aced55ce6f95debecdce179f7a0cd1d"
@@ -3121,6 +3133,11 @@ expect@^22.4.0:
     jest-message-util "^22.4.3"
     jest-regex-util "^22.4.3"
 
+express-list-endpoints@^2.0.3:
+  version "2.0.3"
+  resolved "https://registry.yarnpkg.com/express-list-endpoints/-/express-list-endpoints-2.0.3.tgz#622d0a3806a452f8e812306d6a11c4018340a562"
+  integrity sha1-Yi0KOAakUvjoEjBtahHEAYNApWI=
+
 express-request-proxy@^2.0.0:
   version "2.2.2"
   resolved "https://registry.yarnpkg.com/express-request-proxy/-/express-request-proxy-2.2.2.tgz#ebe8966e7ab47c97b59721f2714217a6389a2a76"
@@ -3139,7 +3156,16 @@ express-request-proxy@^2.0.0:
     type-is "^1.6.16"
     url-join "4.0.0"
 
-express@^4.0.0, express@^4.16.3:
+express-routemap@^1.1.0:
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/express-routemap/-/express-routemap-1.1.0.tgz#02e3a9c9bf067d81570ca253a214ea57f30980b8"
+  integrity sha1-AuOpyb8GfYFXDKJTohTqV/MJgLg=
+  dependencies:
+    chalk "^1.1.3"
+    cli-table "^0.3.1"
+    express-list-endpoints "^2.0.3"
+
+express@^4.0.0, express@^4.16.3, express@^4.16.4:
   version "4.16.4"
   resolved "https://registry.yarnpkg.com/express/-/express-4.16.4.tgz#fddef61926109e24c515ea97fd2f1bdbf62df12e"
   integrity sha512-j12Uuyb4FMrd/qQAm6uCHAkPtO8FDTRJZBDd5D2KOL2eLaz1yUNdUB/NOIyq0iU4q4cFarsUCrnFDPBcnksuOg==

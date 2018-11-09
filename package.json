@@ -15,7 +15,7 @@
     "prisma:run": "docker-compose run prisma",
     "generate": "npm run prisma:generate && graphqlgen",
     "prisma:generate": "prisma generate",
-    "build:schema": "mkdir -p dist && npm run prisma:generate && NODE_ENV=production ts-node /Users/edwardtidbury/Documents/ts-gql-helpers.git/util/build-schema.js",
+    "build:schema": "mkdir -p dist && npm run prisma:generate && NODE_ENV=production ts-node $(npm root)/@etidbury/ts-gql-helpers/util/build-schema.js",
     "build:reset": "rm -rf dist",
     "start": "NODE_ENV=production node dist/index.js",
     "test": "NODE_ENV=production $(npm bin)/jest",
@@ -24,7 +24,7 @@
     "dev": "NODE_ENV=development ts-node src/index.ts",
     "watch": "$(npm bin)/nodemon --config $(npm root)/@etidbury/ts-gql-helpers/config/nodemon.json --exec npm run dev",
     "prod": "npm start",
-    "docker-compose": "docker-compose -f /Users/edwardtidbury/Documents/ts-gql-helpers.git/config/docker-compose.yml",
+    "docker-compose": "docker-compose -f $(npm root)/@etidbury/ts-gql-helpers/config/docker-compose.yml",
     "prisma:dev": "npm run docker-compose up -d",
     "docker": "npm run docker:build && npm run docker:run",
     "docker:build": "npm run build && docker build -t \"$(echo $npm_package_name)\" -f $(npm root)/@etidbury/ts-gql-helpers/config/Dockerfile .",
@@ -33,7 +33,7 @@
     "eslint": "$(npm bin)/eslint --fix --max-warnings 300 ./"
   },
   "dependencies": {
-    "@etidbury/ts-gql-helpers": "^0.0.3",
+    "@etidbury/ts-gql-helpers": "^0.0.5",
     "apollo-server": "^2.1.0",
     "apollo-server-core": "^2.1.0",
     "axios": "0.18.0",
