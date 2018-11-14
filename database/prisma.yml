@@ -9,7 +9,7 @@ generate:
 
 # to disable authentication:
 # disableAuth: true
-secret: ${env:PRISMA_SECRET}
+#secret: ${env:PRISMA_SECRET}
 disableAuth: true
 # seed your service with initial data
 seed:
