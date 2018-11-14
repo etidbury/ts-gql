@@ -8,7 +8,6 @@ projects:
       endpoints:
         default: http://localhost:3000/graphql
   database:
-    includes: ["**/*.graphql"]
     schemaPath: src/generated/prisma.graphql
     extensions:
       prisma: database/prisma.yml
