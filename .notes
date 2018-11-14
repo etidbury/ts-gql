@@ -1,0 +1,9 @@
+mutation {
+  createRandom(
+    data: {
+      name: "RandomTest1"
+    }
+  ) {
+    id
+  }
+}

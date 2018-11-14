@@ -1,3 +1,4 @@
+managementApiSecret: PRISMA_MANAGEMENT_API_SECRET
 databases:
   default:
       connector: mysql # or 'postgres'

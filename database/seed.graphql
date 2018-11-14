@@ -1,8 +1,7 @@
 mutation {
-  createUser(
+  createRandom (
     data: {
       name: "Alice"
-      email: "alice@prisma.io"
     }
   ) {
     id

@@ -11,6 +11,8 @@ type AtLeastOne<T, U = { [K in keyof T]: Pick<T, K> }> = Partial<T> &
   U[keyof U];
 
 export interface Exists {
+  post: (where?: PostWhereInput) => Promise<boolean>;
+  random: (where?: RandomWhereInput) => Promise<boolean>;
   user: (where?: UserWhereInput) => Promise<boolean>;
 }
 
@@ -33,6 +35,52 @@ export interface Prisma {
    * Queries
    */
 
+  post: (where: PostWhereUniqueInput) => Post;
+  posts: (
+    args?: {
+      where?: PostWhereInput;
+      orderBy?: PostOrderByInput;
+      skip?: Int;
+      after?: String;
+      before?: String;
+      first?: Int;
+      last?: Int;
+    }
+  ) => FragmentableArray<PostNode>;
+  postsConnection: (
+    args?: {
+      where?: PostWhereInput;
+      orderBy?: PostOrderByInput;
+      skip?: Int;
+      after?: String;
+      before?: String;
+      first?: Int;
+      last?: Int;
+    }
+  ) => PostConnection;
+  random: (where: RandomWhereUniqueInput) => Random;
+  randoms: (
+    args?: {
+      where?: RandomWhereInput;
+      orderBy?: RandomOrderByInput;
+      skip?: Int;
+      after?: String;
+      before?: String;
+      first?: Int;
+      last?: Int;
+    }
+  ) => FragmentableArray<RandomNode>;
+  randomsConnection: (
+    args?: {
+      where?: RandomWhereInput;
+      orderBy?: RandomOrderByInput;
+      skip?: Int;
+      after?: String;
+      before?: String;
+      first?: Int;
+      last?: Int;
+    }
+  ) => RandomConnection;
   user: (where: UserWhereUniqueInput) => User;
   users: (
     args?: {
@@ -62,6 +110,38 @@ export interface Prisma {
    * Mutations
    */
 
+  createPost: (data: PostCreateInput) => Post;
+  updatePost: (
+    args: { data: PostUpdateInput; where: PostWhereUniqueInput }
+  ) => Post;
+  updateManyPosts: (
+    args: { data: PostUpdateInput; where?: PostWhereInput }
+  ) => BatchPayload;
+  upsertPost: (
+    args: {
+      where: PostWhereUniqueInput;
+      create: PostCreateInput;
+      update: PostUpdateInput;
+    }
+  ) => Post;
+  deletePost: (where: PostWhereUniqueInput) => Post;
+  deleteManyPosts: (where?: PostWhereInput) => BatchPayload;
+  createRandom: (data: RandomCreateInput) => Random;
+  updateRandom: (
+    args: { data: RandomUpdateInput; where: RandomWhereUniqueInput }
+  ) => Random;
+  updateManyRandoms: (
+    args: { data: RandomUpdateInput; where?: RandomWhereInput }
+  ) => BatchPayload;
+  upsertRandom: (
+    args: {
+      where: RandomWhereUniqueInput;
+      create: RandomCreateInput;
+      update: RandomUpdateInput;
+    }
+  ) => Random;
+  deleteRandom: (where: RandomWhereUniqueInput) => Random;
+  deleteManyRandoms: (where?: RandomWhereInput) => BatchPayload;
   createUser: (data: UserCreateInput) => User;
   updateUser: (
     args: { data: UserUpdateInput; where: UserWhereUniqueInput }
@@ -87,6 +167,12 @@ export interface Prisma {
 }
 
 export interface Subscription {
+  post: (
+    where?: PostSubscriptionWhereInput
+  ) => PostSubscriptionPayloadSubscription;
+  random: (
+    where?: RandomSubscriptionWhereInput
+  ) => RandomSubscriptionPayloadSubscription;
   user: (
     where?: UserSubscriptionWhereInput
   ) => UserSubscriptionPayloadSubscription;
@@ -100,13 +186,49 @@ export interface ClientConstructor<T> {
  * Types
  */
 
-export type UserOrderByInput =
+export type Role = "ADMIN" | "CUSTOMER";
+
+export type PostOrderByInput =
+  | "id_ASC"
+  | "id_DESC"
+  | "isPublished_ASC"
+  | "isPublished_DESC"
+  | "title_ASC"
+  | "title_DESC"
+  | "text_ASC"
+  | "text_DESC"
+  | "testString_ASC"
+  | "testString_DESC"
+  | "createdAt_ASC"
+  | "createdAt_DESC"
+  | "updatedAt_ASC"
+  | "updatedAt_DESC";
+
+export type RandomOrderByInput =
   | "id_ASC"
   | "id_DESC"
   | "name_ASC"
   | "name_DESC"
+  | "createdAt_ASC"
+  | "createdAt_DESC"
+  | "updatedAt_ASC"
+  | "updatedAt_DESC";
+
+export type UserOrderByInput =
+  | "id_ASC"
+  | "id_DESC"
   | "email_ASC"
   | "email_DESC"
+  | "role_ASC"
+  | "role_DESC"
+  | "name_ASC"
+  | "name_DESC"
+  | "avatar_ASC"
+  | "avatar_DESC"
+  | "auth0id_ASC"
+  | "auth0id_DESC"
+  | "identity_ASC"
+  | "identity_DESC"
   | "createdAt_ASC"
   | "createdAt_DESC"
   | "updatedAt_ASC"
@@ -114,17 +236,340 @@ export type UserOrderByInput =
 
 export type MutationType = "CREATED" | "UPDATED" | "DELETED";
 
-export interface UserCreateInput {
-  name: String;
-  email?: String;
+export interface PostCreateInput {
+  isPublished: Boolean;
+  title: String;
+  text: String;
+  testString?: String;
+  user?: UserCreateOneWithoutPostsInput;
 }
 
-export interface UserUpdateInput {
-  name?: String;
-  email?: String;
+export type PostWhereUniqueInput = AtLeastOne<{
+  id: ID_Input;
+}>;
+
+export interface UserUpdateOneWithoutPostsInput {
+  create?: UserCreateWithoutPostsInput;
+  update?: UserUpdateWithoutPostsDataInput;
+  upsert?: UserUpsertWithoutPostsInput;
+  delete?: Boolean;
+  disconnect?: Boolean;
+  connect?: UserWhereUniqueInput;
+}
+
+export interface PostWhereInput {
+  id?: ID_Input;
+  id_not?: ID_Input;
+  id_in?: ID_Input[] | ID_Input;
+  id_not_in?: ID_Input[] | ID_Input;
+  id_lt?: ID_Input;
+  id_lte?: ID_Input;
+  id_gt?: ID_Input;
+  id_gte?: ID_Input;
+  id_contains?: ID_Input;
+  id_not_contains?: ID_Input;
+  id_starts_with?: ID_Input;
+  id_not_starts_with?: ID_Input;
+  id_ends_with?: ID_Input;
+  id_not_ends_with?: ID_Input;
+  isPublished?: Boolean;
+  isPublished_not?: Boolean;
+  title?: String;
+  title_not?: String;
+  title_in?: String[] | String;
+  title_not_in?: String[] | String;
+  title_lt?: String;
+  title_lte?: String;
+  title_gt?: String;
+  title_gte?: String;
+  title_contains?: String;
+  title_not_contains?: String;
+  title_starts_with?: String;
+  title_not_starts_with?: String;
+  title_ends_with?: String;
+  title_not_ends_with?: String;
+  text?: String;
+  text_not?: String;
+  text_in?: String[] | String;
+  text_not_in?: String[] | String;
+  text_lt?: String;
+  text_lte?: String;
+  text_gt?: String;
+  text_gte?: String;
+  text_contains?: String;
+  text_not_contains?: String;
+  text_starts_with?: String;
+  text_not_starts_with?: String;
+  text_ends_with?: String;
+  text_not_ends_with?: String;
+  testString?: String;
+  testString_not?: String;
+  testString_in?: String[] | String;
+  testString_not_in?: String[] | String;
+  testString_lt?: String;
+  testString_lte?: String;
+  testString_gt?: String;
+  testString_gte?: String;
+  testString_contains?: String;
+  testString_not_contains?: String;
+  testString_starts_with?: String;
+  testString_not_starts_with?: String;
+  testString_ends_with?: String;
+  testString_not_ends_with?: String;
+  user?: UserWhereInput;
+  AND?: PostWhereInput[] | PostWhereInput;
+  OR?: PostWhereInput[] | PostWhereInput;
+  NOT?: PostWhereInput[] | PostWhereInput;
+}
+
+export interface PostCreateWithoutUserInput {
+  isPublished: Boolean;
+  title: String;
+  text: String;
+  testString?: String;
 }
 
 export interface UserWhereInput {
+  id?: ID_Input;
+  id_not?: ID_Input;
+  id_in?: ID_Input[] | ID_Input;
+  id_not_in?: ID_Input[] | ID_Input;
+  id_lt?: ID_Input;
+  id_lte?: ID_Input;
+  id_gt?: ID_Input;
+  id_gte?: ID_Input;
+  id_contains?: ID_Input;
+  id_not_contains?: ID_Input;
+  id_starts_with?: ID_Input;
+  id_not_starts_with?: ID_Input;
+  id_ends_with?: ID_Input;
+  id_not_ends_with?: ID_Input;
+  email?: String;
+  email_not?: String;
+  email_in?: String[] | String;
+  email_not_in?: String[] | String;
+  email_lt?: String;
+  email_lte?: String;
+  email_gt?: String;
+  email_gte?: String;
+  email_contains?: String;
+  email_not_contains?: String;
+  email_starts_with?: String;
+  email_not_starts_with?: String;
+  email_ends_with?: String;
+  email_not_ends_with?: String;
+  role?: Role;
+  role_not?: Role;
+  role_in?: Role[] | Role;
+  role_not_in?: Role[] | Role;
+  name?: String;
+  name_not?: String;
+  name_in?: String[] | String;
+  name_not_in?: String[] | String;
+  name_lt?: String;
+  name_lte?: String;
+  name_gt?: String;
+  name_gte?: String;
+  name_contains?: String;
+  name_not_contains?: String;
+  name_starts_with?: String;
+  name_not_starts_with?: String;
+  name_ends_with?: String;
+  name_not_ends_with?: String;
+  avatar?: String;
+  avatar_not?: String;
+  avatar_in?: String[] | String;
+  avatar_not_in?: String[] | String;
+  avatar_lt?: String;
+  avatar_lte?: String;
+  avatar_gt?: String;
+  avatar_gte?: String;
+  avatar_contains?: String;
+  avatar_not_contains?: String;
+  avatar_starts_with?: String;
+  avatar_not_starts_with?: String;
+  avatar_ends_with?: String;
+  avatar_not_ends_with?: String;
+  auth0id?: String;
+  auth0id_not?: String;
+  auth0id_in?: String[] | String;
+  auth0id_not_in?: String[] | String;
+  auth0id_lt?: String;
+  auth0id_lte?: String;
+  auth0id_gt?: String;
+  auth0id_gte?: String;
+  auth0id_contains?: String;
+  auth0id_not_contains?: String;
+  auth0id_starts_with?: String;
+  auth0id_not_starts_with?: String;
+  auth0id_ends_with?: String;
+  auth0id_not_ends_with?: String;
+  identity?: String;
+  identity_not?: String;
+  identity_in?: String[] | String;
+  identity_not_in?: String[] | String;
+  identity_lt?: String;
+  identity_lte?: String;
+  identity_gt?: String;
+  identity_gte?: String;
+  identity_contains?: String;
+  identity_not_contains?: String;
+  identity_starts_with?: String;
+  identity_not_starts_with?: String;
+  identity_ends_with?: String;
+  identity_not_ends_with?: String;
+  posts_every?: PostWhereInput;
+  posts_some?: PostWhereInput;
+  posts_none?: PostWhereInput;
+  AND?: UserWhereInput[] | UserWhereInput;
+  OR?: UserWhereInput[] | UserWhereInput;
+  NOT?: UserWhereInput[] | UserWhereInput;
+}
+
+export type UserWhereUniqueInput = AtLeastOne<{
+  id: ID_Input;
+  email?: String;
+  auth0id?: String;
+}>;
+
+export interface UserUpdateWithoutPostsDataInput {
+  email?: String;
+  role?: Role;
+  name?: String;
+  avatar?: String;
+  auth0id?: String;
+  identity?: String;
+}
+
+export interface PostCreateManyWithoutUserInput {
+  create?: PostCreateWithoutUserInput[] | PostCreateWithoutUserInput;
+  connect?: PostWhereUniqueInput[] | PostWhereUniqueInput;
+}
+
+export interface RandomSubscriptionWhereInput {
+  mutation_in?: MutationType[] | MutationType;
+  updatedFields_contains?: String;
+  updatedFields_contains_every?: String[] | String;
+  updatedFields_contains_some?: String[] | String;
+  node?: RandomWhereInput;
+  AND?: RandomSubscriptionWhereInput[] | RandomSubscriptionWhereInput;
+  OR?: RandomSubscriptionWhereInput[] | RandomSubscriptionWhereInput;
+  NOT?: RandomSubscriptionWhereInput[] | RandomSubscriptionWhereInput;
+}
+
+export interface UserCreateInput {
+  email?: String;
+  role?: Role;
+  name?: String;
+  avatar?: String;
+  auth0id: String;
+  identity?: String;
+  posts?: PostCreateManyWithoutUserInput;
+}
+
+export interface PostUpsertWithWhereUniqueWithoutUserInput {
+  where: PostWhereUniqueInput;
+  update: PostUpdateWithoutUserDataInput;
+  create: PostCreateWithoutUserInput;
+}
+
+export interface RandomUpdateInput {
+  name?: String;
+}
+
+export interface PostUpdateWithoutUserDataInput {
+  isPublished?: Boolean;
+  title?: String;
+  text?: String;
+  testString?: String;
+}
+
+export interface RandomCreateInput {
+  name?: String;
+}
+
+export interface PostUpdateWithWhereUniqueWithoutUserInput {
+  where: PostWhereUniqueInput;
+  data: PostUpdateWithoutUserDataInput;
+}
+
+export interface UserUpdateInput {
+  email?: String;
+  role?: Role;
+  name?: String;
+  avatar?: String;
+  auth0id?: String;
+  identity?: String;
+  posts?: PostUpdateManyWithoutUserInput;
+}
+
+export interface PostSubscriptionWhereInput {
+  mutation_in?: MutationType[] | MutationType;
+  updatedFields_contains?: String;
+  updatedFields_contains_every?: String[] | String;
+  updatedFields_contains_some?: String[] | String;
+  node?: PostWhereInput;
+  AND?: PostSubscriptionWhereInput[] | PostSubscriptionWhereInput;
+  OR?: PostSubscriptionWhereInput[] | PostSubscriptionWhereInput;
+  NOT?: PostSubscriptionWhereInput[] | PostSubscriptionWhereInput;
+}
+
+export interface PostUpdateInput {
+  isPublished?: Boolean;
+  title?: String;
+  text?: String;
+  testString?: String;
+  user?: UserUpdateOneWithoutPostsInput;
+}
+
+export interface UserCreateWithoutPostsInput {
+  email?: String;
+  role?: Role;
+  name?: String;
+  avatar?: String;
+  auth0id: String;
+  identity?: String;
+}
+
+export interface UserCreateOneWithoutPostsInput {
+  create?: UserCreateWithoutPostsInput;
+  connect?: UserWhereUniqueInput;
+}
+
+export interface UserUpsertWithoutPostsInput {
+  update: UserUpdateWithoutPostsDataInput;
+  create: UserCreateWithoutPostsInput;
+}
+
+export type RandomWhereUniqueInput = AtLeastOne<{
+  id: ID_Input;
+}>;
+
+export interface UserSubscriptionWhereInput {
+  mutation_in?: MutationType[] | MutationType;
+  updatedFields_contains?: String;
+  updatedFields_contains_every?: String[] | String;
+  updatedFields_contains_some?: String[] | String;
+  node?: UserWhereInput;
+  AND?: UserSubscriptionWhereInput[] | UserSubscriptionWhereInput;
+  OR?: UserSubscriptionWhereInput[] | UserSubscriptionWhereInput;
+  NOT?: UserSubscriptionWhereInput[] | UserSubscriptionWhereInput;
+}
+
+export interface PostUpdateManyWithoutUserInput {
+  create?: PostCreateWithoutUserInput[] | PostCreateWithoutUserInput;
+  delete?: PostWhereUniqueInput[] | PostWhereUniqueInput;
+  connect?: PostWhereUniqueInput[] | PostWhereUniqueInput;
+  disconnect?: PostWhereUniqueInput[] | PostWhereUniqueInput;
+  update?:
+    | PostUpdateWithWhereUniqueWithoutUserInput[]
+    | PostUpdateWithWhereUniqueWithoutUserInput;
+  upsert?:
+    | PostUpsertWithWhereUniqueWithoutUserInput[]
+    | PostUpsertWithWhereUniqueWithoutUserInput;
+}
+
+export interface RandomWhereInput {
   id?: ID_Input;
   id_not?: ID_Input;
   id_in?: ID_Input[] | ID_Input;
@@ -153,58 +598,134 @@ export interface UserWhereInput {
   name_not_starts_with?: String;
   name_ends_with?: String;
   name_not_ends_with?: String;
-  email?: String;
-  email_not?: String;
-  email_in?: String[] | String;
-  email_not_in?: String[] | String;
-  email_lt?: String;
-  email_lte?: String;
-  email_gt?: String;
-  email_gte?: String;
-  email_contains?: String;
-  email_not_contains?: String;
-  email_starts_with?: String;
-  email_not_starts_with?: String;
-  email_ends_with?: String;
-  email_not_ends_with?: String;
-  AND?: UserWhereInput[] | UserWhereInput;
-  OR?: UserWhereInput[] | UserWhereInput;
-  NOT?: UserWhereInput[] | UserWhereInput;
+  AND?: RandomWhereInput[] | RandomWhereInput;
+  OR?: RandomWhereInput[] | RandomWhereInput;
+  NOT?: RandomWhereInput[] | RandomWhereInput;
 }
-
-export interface UserSubscriptionWhereInput {
-  mutation_in?: MutationType[] | MutationType;
-  updatedFields_contains?: String;
-  updatedFields_contains_every?: String[] | String;
-  updatedFields_contains_some?: String[] | String;
-  node?: UserWhereInput;
-  AND?: UserSubscriptionWhereInput[] | UserSubscriptionWhereInput;
-  OR?: UserSubscriptionWhereInput[] | UserSubscriptionWhereInput;
-  NOT?: UserSubscriptionWhereInput[] | UserSubscriptionWhereInput;
-}
-
-export type UserWhereUniqueInput = AtLeastOne<{
-  id: ID_Input;
-}>;
 
 export interface NodeNode {
   id: ID_Output;
 }
 
-export interface UserEdgeNode {
-  cursor: String;
+export interface UserPreviousValuesNode {
+  id: ID_Output;
+  email?: String;
+  role?: Role;
+  name?: String;
+  avatar?: String;
+  auth0id: String;
+  identity?: String;
 }
 
-export interface UserEdge extends Promise<UserEdgeNode>, Fragmentable {
-  node: <T = User>() => T;
-  cursor: () => Promise<String>;
-}
-
-export interface UserEdgeSubscription
-  extends Promise<AsyncIterator<UserEdgeNode>>,
+export interface UserPreviousValues
+  extends Promise<UserPreviousValuesNode>,
     Fragmentable {
-  node: <T = UserSubscription>() => T;
-  cursor: () => Promise<AsyncIterator<String>>;
+  id: () => Promise<ID_Output>;
+  email: () => Promise<String>;
+  role: () => Promise<Role>;
+  name: () => Promise<String>;
+  avatar: () => Promise<String>;
+  auth0id: () => Promise<String>;
+  identity: () => Promise<String>;
+}
+
+export interface UserPreviousValuesSubscription
+  extends Promise<AsyncIterator<UserPreviousValuesNode>>,
+    Fragmentable {
+  id: () => Promise<AsyncIterator<ID_Output>>;
+  email: () => Promise<AsyncIterator<String>>;
+  role: () => Promise<AsyncIterator<Role>>;
+  name: () => Promise<AsyncIterator<String>>;
+  avatar: () => Promise<AsyncIterator<String>>;
+  auth0id: () => Promise<AsyncIterator<String>>;
+  identity: () => Promise<AsyncIterator<String>>;
+}
+
+export interface RandomNode {
+  id: ID_Output;
+  name?: String;
+}
+
+export interface Random extends Promise<RandomNode>, Fragmentable {
+  id: () => Promise<ID_Output>;
+  name: () => Promise<String>;
+}
+
+export interface RandomSubscription
+  extends Promise<AsyncIterator<RandomNode>>,
+    Fragmentable {
+  id: () => Promise<AsyncIterator<ID_Output>>;
+  name: () => Promise<AsyncIterator<String>>;
+}
+
+export interface UserNode {
+  id: ID_Output;
+  email?: String;
+  role?: Role;
+  name?: String;
+  avatar?: String;
+  auth0id: String;
+  identity?: String;
+}
+
+export interface User extends Promise<UserNode>, Fragmentable {
+  id: () => Promise<ID_Output>;
+  email: () => Promise<String>;
+  role: () => Promise<Role>;
+  name: () => Promise<String>;
+  avatar: () => Promise<String>;
+  auth0id: () => Promise<String>;
+  identity: () => Promise<String>;
+  posts: <T = FragmentableArray<PostNode>>(
+    args?: {
+      where?: PostWhereInput;
+      orderBy?: PostOrderByInput;
+      skip?: Int;
+      after?: String;
+      before?: String;
+      first?: Int;
+      last?: Int;
+    }
+  ) => T;
+}
+
+export interface UserSubscription
+  extends Promise<AsyncIterator<UserNode>>,
+    Fragmentable {
+  id: () => Promise<AsyncIterator<ID_Output>>;
+  email: () => Promise<AsyncIterator<String>>;
+  role: () => Promise<AsyncIterator<Role>>;
+  name: () => Promise<AsyncIterator<String>>;
+  avatar: () => Promise<AsyncIterator<String>>;
+  auth0id: () => Promise<AsyncIterator<String>>;
+  identity: () => Promise<AsyncIterator<String>>;
+  posts: <T = Promise<AsyncIterator<PostSubscription>>>(
+    args?: {
+      where?: PostWhereInput;
+      orderBy?: PostOrderByInput;
+      skip?: Int;
+      after?: String;
+      before?: String;
+      first?: Int;
+      last?: Int;
+    }
+  ) => T;
+}
+
+export interface AggregatePostNode {
+  count: Int;
+}
+
+export interface AggregatePost
+  extends Promise<AggregatePostNode>,
+    Fragmentable {
+  count: () => Promise<Int>;
+}
+
+export interface AggregatePostSubscription
+  extends Promise<AsyncIterator<AggregatePostNode>>,
+    Fragmentable {
+  count: () => Promise<AsyncIterator<Int>>;
 }
 
 export interface BatchPayloadNode {
@@ -221,26 +742,243 @@ export interface BatchPayloadSubscription
   count: () => Promise<AsyncIterator<Long>>;
 }
 
-export interface UserPreviousValuesNode {
-  id: ID_Output;
-  name: String;
-  email?: String;
+export interface PostEdgeNode {
+  cursor: String;
 }
 
-export interface UserPreviousValues
-  extends Promise<UserPreviousValuesNode>,
+export interface PostEdge extends Promise<PostEdgeNode>, Fragmentable {
+  node: <T = Post>() => T;
+  cursor: () => Promise<String>;
+}
+
+export interface PostEdgeSubscription
+  extends Promise<AsyncIterator<PostEdgeNode>>,
+    Fragmentable {
+  node: <T = PostSubscription>() => T;
+  cursor: () => Promise<AsyncIterator<String>>;
+}
+
+export interface AggregateUserNode {
+  count: Int;
+}
+
+export interface AggregateUser
+  extends Promise<AggregateUserNode>,
+    Fragmentable {
+  count: () => Promise<Int>;
+}
+
+export interface AggregateUserSubscription
+  extends Promise<AsyncIterator<AggregateUserNode>>,
+    Fragmentable {
+  count: () => Promise<AsyncIterator<Int>>;
+}
+
+export interface PostNode {
+  id: ID_Output;
+  isPublished: Boolean;
+  title: String;
+  text: String;
+  testString?: String;
+}
+
+export interface Post extends Promise<PostNode>, Fragmentable {
+  id: () => Promise<ID_Output>;
+  isPublished: () => Promise<Boolean>;
+  title: () => Promise<String>;
+  text: () => Promise<String>;
+  testString: () => Promise<String>;
+  user: <T = User>() => T;
+}
+
+export interface PostSubscription
+  extends Promise<AsyncIterator<PostNode>>,
+    Fragmentable {
+  id: () => Promise<AsyncIterator<ID_Output>>;
+  isPublished: () => Promise<AsyncIterator<Boolean>>;
+  title: () => Promise<AsyncIterator<String>>;
+  text: () => Promise<AsyncIterator<String>>;
+  testString: () => Promise<AsyncIterator<String>>;
+  user: <T = UserSubscription>() => T;
+}
+
+export interface UserConnectionNode {}
+
+export interface UserConnection
+  extends Promise<UserConnectionNode>,
+    Fragmentable {
+  pageInfo: <T = PageInfo>() => T;
+  edges: <T = FragmentableArray<UserEdgeNode>>() => T;
+  aggregate: <T = AggregateUser>() => T;
+}
+
+export interface UserConnectionSubscription
+  extends Promise<AsyncIterator<UserConnectionNode>>,
+    Fragmentable {
+  pageInfo: <T = PageInfoSubscription>() => T;
+  edges: <T = Promise<AsyncIterator<UserEdgeSubscription>>>() => T;
+  aggregate: <T = AggregateUserSubscription>() => T;
+}
+
+export interface PostSubscriptionPayloadNode {
+  mutation: MutationType;
+  updatedFields?: String[];
+}
+
+export interface PostSubscriptionPayload
+  extends Promise<PostSubscriptionPayloadNode>,
+    Fragmentable {
+  mutation: () => Promise<MutationType>;
+  node: <T = Post>() => T;
+  updatedFields: () => Promise<String[]>;
+  previousValues: <T = PostPreviousValues>() => T;
+}
+
+export interface PostSubscriptionPayloadSubscription
+  extends Promise<AsyncIterator<PostSubscriptionPayloadNode>>,
+    Fragmentable {
+  mutation: () => Promise<AsyncIterator<MutationType>>;
+  node: <T = PostSubscription>() => T;
+  updatedFields: () => Promise<AsyncIterator<String[]>>;
+  previousValues: <T = PostPreviousValuesSubscription>() => T;
+}
+
+export interface AggregateRandomNode {
+  count: Int;
+}
+
+export interface AggregateRandom
+  extends Promise<AggregateRandomNode>,
+    Fragmentable {
+  count: () => Promise<Int>;
+}
+
+export interface AggregateRandomSubscription
+  extends Promise<AsyncIterator<AggregateRandomNode>>,
+    Fragmentable {
+  count: () => Promise<AsyncIterator<Int>>;
+}
+
+export interface PostPreviousValuesNode {
+  id: ID_Output;
+  isPublished: Boolean;
+  title: String;
+  text: String;
+  testString?: String;
+}
+
+export interface PostPreviousValues
+  extends Promise<PostPreviousValuesNode>,
+    Fragmentable {
+  id: () => Promise<ID_Output>;
+  isPublished: () => Promise<Boolean>;
+  title: () => Promise<String>;
+  text: () => Promise<String>;
+  testString: () => Promise<String>;
+}
+
+export interface PostPreviousValuesSubscription
+  extends Promise<AsyncIterator<PostPreviousValuesNode>>,
+    Fragmentable {
+  id: () => Promise<AsyncIterator<ID_Output>>;
+  isPublished: () => Promise<AsyncIterator<Boolean>>;
+  title: () => Promise<AsyncIterator<String>>;
+  text: () => Promise<AsyncIterator<String>>;
+  testString: () => Promise<AsyncIterator<String>>;
+}
+
+export interface RandomConnectionNode {}
+
+export interface RandomConnection
+  extends Promise<RandomConnectionNode>,
+    Fragmentable {
+  pageInfo: <T = PageInfo>() => T;
+  edges: <T = FragmentableArray<RandomEdgeNode>>() => T;
+  aggregate: <T = AggregateRandom>() => T;
+}
+
+export interface RandomConnectionSubscription
+  extends Promise<AsyncIterator<RandomConnectionNode>>,
+    Fragmentable {
+  pageInfo: <T = PageInfoSubscription>() => T;
+  edges: <T = Promise<AsyncIterator<RandomEdgeSubscription>>>() => T;
+  aggregate: <T = AggregateRandomSubscription>() => T;
+}
+
+export interface RandomSubscriptionPayloadNode {
+  mutation: MutationType;
+  updatedFields?: String[];
+}
+
+export interface RandomSubscriptionPayload
+  extends Promise<RandomSubscriptionPayloadNode>,
+    Fragmentable {
+  mutation: () => Promise<MutationType>;
+  node: <T = Random>() => T;
+  updatedFields: () => Promise<String[]>;
+  previousValues: <T = RandomPreviousValues>() => T;
+}
+
+export interface RandomSubscriptionPayloadSubscription
+  extends Promise<AsyncIterator<RandomSubscriptionPayloadNode>>,
+    Fragmentable {
+  mutation: () => Promise<AsyncIterator<MutationType>>;
+  node: <T = RandomSubscription>() => T;
+  updatedFields: () => Promise<AsyncIterator<String[]>>;
+  previousValues: <T = RandomPreviousValuesSubscription>() => T;
+}
+
+export interface RandomPreviousValuesNode {
+  id: ID_Output;
+  name?: String;
+}
+
+export interface RandomPreviousValues
+  extends Promise<RandomPreviousValuesNode>,
     Fragmentable {
   id: () => Promise<ID_Output>;
   name: () => Promise<String>;
-  email: () => Promise<String>;
 }
 
-export interface UserPreviousValuesSubscription
-  extends Promise<AsyncIterator<UserPreviousValuesNode>>,
+export interface RandomPreviousValuesSubscription
+  extends Promise<AsyncIterator<RandomPreviousValuesNode>>,
     Fragmentable {
   id: () => Promise<AsyncIterator<ID_Output>>;
   name: () => Promise<AsyncIterator<String>>;
-  email: () => Promise<AsyncIterator<String>>;
+}
+
+export interface PostConnectionNode {}
+
+export interface PostConnection
+  extends Promise<PostConnectionNode>,
+    Fragmentable {
+  pageInfo: <T = PageInfo>() => T;
+  edges: <T = FragmentableArray<PostEdgeNode>>() => T;
+  aggregate: <T = AggregatePost>() => T;
+}
+
+export interface PostConnectionSubscription
+  extends Promise<AsyncIterator<PostConnectionNode>>,
+    Fragmentable {
+  pageInfo: <T = PageInfoSubscription>() => T;
+  edges: <T = Promise<AsyncIterator<PostEdgeSubscription>>>() => T;
+  aggregate: <T = AggregatePostSubscription>() => T;
+}
+
+export interface RandomEdgeNode {
+  cursor: String;
+}
+
+export interface RandomEdge extends Promise<RandomEdgeNode>, Fragmentable {
+  node: <T = Random>() => T;
+  cursor: () => Promise<String>;
+}
+
+export interface RandomEdgeSubscription
+  extends Promise<AsyncIterator<RandomEdgeNode>>,
+    Fragmentable {
+  node: <T = RandomSubscription>() => T;
+  cursor: () => Promise<AsyncIterator<String>>;
 }
 
 export interface UserSubscriptionPayloadNode {
@@ -266,42 +1004,20 @@ export interface UserSubscriptionPayloadSubscription
   previousValues: <T = UserPreviousValuesSubscription>() => T;
 }
 
-export interface UserNode {
-  id: ID_Output;
-  name: String;
-  email?: String;
+export interface UserEdgeNode {
+  cursor: String;
 }
 
-export interface User extends Promise<UserNode>, Fragmentable {
-  id: () => Promise<ID_Output>;
-  name: () => Promise<String>;
-  email: () => Promise<String>;
+export interface UserEdge extends Promise<UserEdgeNode>, Fragmentable {
+  node: <T = User>() => T;
+  cursor: () => Promise<String>;
 }
 
-export interface UserSubscription
-  extends Promise<AsyncIterator<UserNode>>,
+export interface UserEdgeSubscription
+  extends Promise<AsyncIterator<UserEdgeNode>>,
     Fragmentable {
-  id: () => Promise<AsyncIterator<ID_Output>>;
-  name: () => Promise<AsyncIterator<String>>;
-  email: () => Promise<AsyncIterator<String>>;
-}
-
-export interface UserConnectionNode {}
-
-export interface UserConnection
-  extends Promise<UserConnectionNode>,
-    Fragmentable {
-  pageInfo: <T = PageInfo>() => T;
-  edges: <T = FragmentableArray<UserEdgeNode>>() => T;
-  aggregate: <T = AggregateUser>() => T;
-}
-
-export interface UserConnectionSubscription
-  extends Promise<AsyncIterator<UserConnectionNode>>,
-    Fragmentable {
-  pageInfo: <T = PageInfoSubscription>() => T;
-  edges: <T = Promise<AsyncIterator<UserEdgeSubscription>>>() => T;
-  aggregate: <T = AggregateUserSubscription>() => T;
+  node: <T = UserSubscription>() => T;
+  cursor: () => Promise<AsyncIterator<String>>;
 }
 
 export interface PageInfoNode {
@@ -327,21 +1043,16 @@ export interface PageInfoSubscription
   endCursor: () => Promise<AsyncIterator<String>>;
 }
 
-export interface AggregateUserNode {
-  count: Int;
-}
+/*
+The `Int` scalar type represents non-fractional signed whole numeric values. Int can represent values between -(2^31) and 2^31 - 1. 
+*/
+export type Int = number;
 
-export interface AggregateUser
-  extends Promise<AggregateUserNode>,
-    Fragmentable {
-  count: () => Promise<Int>;
-}
-
-export interface AggregateUserSubscription
-  extends Promise<AsyncIterator<AggregateUserNode>>,
-    Fragmentable {
-  count: () => Promise<AsyncIterator<Int>>;
-}
+/*
+The `ID` scalar type represents a unique identifier, often used to refetch an object or as key for a cache. The ID type appears in a JSON response as a String; however, it is not intended to be human-readable. When expected as an input type, any string (such as `"4"`) or integer (such as `4`) input value will be accepted as an ID.
+*/
+export type ID_Input = string | number;
+export type ID_Output = string;
 
 /*
 The `Boolean` scalar type represents `true` or `false`.
@@ -355,23 +1066,13 @@ export type String = string;
 
 export type Long = string;
 
-/*
-The `ID` scalar type represents a unique identifier, often used to refetch an object or as key for a cache. The ID type appears in a JSON response as a String; however, it is not intended to be human-readable. When expected as an input type, any string (such as `"4"`) or integer (such as `4`) input value will be accepted as an ID.
-*/
-export type ID_Input = string | number;
-export type ID_Output = string;
-
-/*
-The `Int` scalar type represents non-fractional signed whole numeric values. Int can represent values between -(2^31) and 2^31 - 1. 
-*/
-export type Int = number;
-
 /**
  * Type Defs
  */
 
 export const Prisma = makePrismaClientClass<ClientConstructor<Prisma>>({
   typeDefs,
-  endpoint: `${process.env["PRISMA_URL"]}`
+  endpoint: `${process.env["PRISMA_URL"]}`,
+  secret: `${process.env["PRISMA_SECRET"]}`
 });
 export const prisma = new Prisma();

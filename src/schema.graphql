@@ -1,18 +1,38 @@
+# import Query.users, Post, Role from "./generated/prisma.graphql"
+
+directive @isAuthenticated on QUERY | FIELD_DEFINITION | MUTATION
+directive @hasRole(roles: [String]) on QUERY | FIELD_DEFINITION | MUTATION
+directive @isOwner(type: String) on QUERY | MUTATION | FIELD_DEFINITION
+directive @isOwnerOrHasRole(type: String, roles: [String]) on QUERY | MUTATION | FIELD_DEFINITION
+
 type User {
   id: ID!
-  name: String!
-  email: String
+  email: String @isOwner(type: "User")
+  role: Role
+  name: String
+  
+  "User avatar image URL"
+  avatar: String
+  ""
+  identity: String
 }
+
+
 
 type HelloPayload {
   name:String
 }
 
 type Mutation {
-  createUser(name:String!):User!
+  authenticate(idToken: String!): User
+  createDraft(title: String!, text: String): Post @isAuthenticated
+  deletePost(id: ID!): Post @isOwnerOrHasRole(type: "Post", roles: ["ADMIN"])
+  publish(id: ID!): Post @isOwner(type: "Post")
 }
 
 type Query {
-  hello:HelloPayload,
-  users:[User]
+  feed: [Post!]!
+  drafts: [Post!]! @isAuthenticated
+  post(id: ID!): Post @isOwnerOrHasRole(type: "Post", roles: ["ADMIN"])
+  me: User @isAuthenticated
 }
