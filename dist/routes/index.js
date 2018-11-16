@@ -8,11 +8,16 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.default = {
-    Query: {
-        hello: (_, __, { req }) => __awaiter(this, void 0, void 0, function* () {
-            return { name: "world" };
-        }),
-    },
+const prisma_client_1 = require("../generated/prisma-client");
+exports.default = (app) => {
+    app.get('/', (req, res) => __awaiter(this, void 0, void 0, function* () {
+        res.json({
+            version: require('../../package').version
+        });
+    }));
+    app.get('/users', (req, res) => __awaiter(this, void 0, void 0, function* () {
+        const users = yield prisma_client_1.prisma.users();
+        res.json({ users });
+    }));
 };
-//# sourceMappingURL=all.js.map
+//# sourceMappingURL=index.js.map

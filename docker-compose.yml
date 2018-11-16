@@ -1,5 +1,17 @@
 version: '3'
 services:
+  app:
+    depends_on:
+    - prisma
+    restart: always
+    build:
+      # dockerfile: ./node_modules/@etidbury/ts-gql-helpers/config/Dockerfile
+      dockerfile: ./Dockerfile
+      context: ./
+      args:
+        PORT: ${PORT}
+    ports:
+    - "${PORT}:${PORT}"
   prisma:
     depends_on:
     - mysql

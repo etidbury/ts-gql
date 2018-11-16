@@ -34,7 +34,7 @@
     "playground": "graphql playground --dotenv dotenv/config --port 3005"
   },
   "dependencies": {
-    "@etidbury/ts-gql-helpers": "^0.0.7",
+    "@etidbury/ts-gql-helpers": "^0.0.11",
     "apollo-server": "^2.1.0",
     "apollo-server-core": "^2.1.0",
     "axios": "0.18.0",
