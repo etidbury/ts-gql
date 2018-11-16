@@ -9,8 +9,7 @@ generate:
 
 # to disable authentication:
 # disableAuth: true
-#secret: ${env:PRISMA_SECRET}
-disableAuth: true
+secret: ${env:PRISMA_SECRET}
 # seed your service with initial data
 seed:
   import: seed.graphql
