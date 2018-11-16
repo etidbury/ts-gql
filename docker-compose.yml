@@ -5,8 +5,8 @@ services:
     - prisma
     restart: always
     build:
-      # dockerfile: ./node_modules/@etidbury/ts-gql-helpers/config/Dockerfile
-      dockerfile: ./Dockerfile
+      dockerfile: ./node_modules/@etidbury/ts-gql-helpers/config/Dockerfile
+      # dockerfile: ./Dockerfile
       context: ./
       args:
         PORT: ${PORT}
