@@ -8,3 +8,4 @@ databases:
       password: MYSQL_PASSWORD
       migrations: true
       active: true
+      connectionLimit: 2

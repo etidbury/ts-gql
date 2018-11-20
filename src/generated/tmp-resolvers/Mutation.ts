@@ -5,8 +5,16 @@ import { MutationResolvers } from "../graphqlgen";
 
 export const Mutation: MutationResolvers.Type = {
   ...MutationResolvers.defaultResolvers,
-  authenticate: (parent, args) => null,
-  createDraft: (parent, args) => null,
-  deletePost: (parent, args) => null,
-  publish: (parent, args) => null
+  authenticate: (parent, args, ctx) => {
+    throw new Error("Resolver not implemented");
+  },
+  createDraft: (parent, args, ctx) => {
+    throw new Error("Resolver not implemented");
+  },
+  deletePost: (parent, args, ctx) => {
+    throw new Error("Resolver not implemented");
+  },
+  publish: (parent, args, ctx) => {
+    throw new Error("Resolver not implemented");
+  }
 };

@@ -95,5 +95,8 @@ export const Query:QueryResolvers.Type = {
   me(parent, args, ctx, info) {
     return ctx.db.query.user({ where: { id: ctxUser(ctx).id } })
   },
-  users: forwardTo('db')
+  users: forwardTo('db'),
+  hello(parent, args:any, ctx, info) {
+    return {name:args.name||"world"}
+  },
 }

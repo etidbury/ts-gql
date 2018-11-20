@@ -4,5 +4,9 @@
 import { HelloPayloadResolvers } from "../graphqlgen";
 
 export const HelloPayload: HelloPayloadResolvers.Type = {
-  ...HelloPayloadResolvers.defaultResolvers
+  ...HelloPayloadResolvers.defaultResolvers,
+
+  name: (parent, args, ctx) => {
+    throw new Error("Resolver not implemented");
+  }
 };

@@ -19,7 +19,7 @@ type User {
 
 
 type HelloPayload {
-  name:String
+  name:String!
 }
 
 type Mutation {
@@ -34,4 +34,5 @@ type Query {
   drafts: [Post!]! @isAuthenticated
   post(id: ID!): Post @isOwnerOrHasRole(type: "Post", roles: ["ADMIN"])
   me: User @isAuthenticated
+  hello(name:String): HelloPayload
 }
