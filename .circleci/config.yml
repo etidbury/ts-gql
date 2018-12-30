@@ -1,16 +1,20 @@
+## More info on this config please check out tpl-api-helpers docs here:
+## @link https://github.com/etidbury/tpl-api-helpers/blob/master/docs/circleci.md
+
 version: 2
 jobs:
   build:
     environment:
-      # @link https://github.com/etidbury/ts-gql-helpers/blob/master/docs/env.md
+      NOW_TEAM: 'firepit'
       PORT: '3000'
-      
+      DEBUG: 'true'
+      GOOGLE_ANALYTICS_ID: 'GA-...'
+      API_BASE_URL: 'http://localhost:3000'
     docker:
       #- image: circleci/node:10-browsers
       - image: circleci/node:10
       #- image: docker:17.05.0-ce-git
     steps:
-      #- setup_remote_docker
       - run:
           name: Check GITHUB_TOKEN is set
           command: |
@@ -20,15 +24,15 @@ jobs:
               
       - checkout
 
-      # Download and cache dependencies
+      ## Download and cache dependencies
       - restore_cache:
           keys:
           - v1-dependencies-{{ checksum "package.json" }}
-          # fallback to using the latest cache if no exact match is found
+          ## fallback to using the latest cache if no exact match is found
           - v1-dependencies-
 
+      - run: sudo yarn global add now
       - run: sudo yarn global add tidil
-
       - save_cache:
           paths:
             - node_modules
@@ -54,29 +58,52 @@ jobs:
       #     command: |
       #         yarn db:migrate
       #         yarn db:seed     
+
+
+
+      ## More info on this config please check out tpl-api-helpers docs here:
+      ## @link https://github.com/etidbury/tpl-api-helpers/blob/master/docs/circleci.md
       - run:
           name: Deployment
           command: |
 
-           if [ "${CIRCLE_BRANCH}" == "staging" ]; then
-              echo "Setting staging environment..."
+            if [ "${CIRCLE_BRANCH}" == "staging" ]; then
+                ## > For listening pushes to 'staging' (no testing)
+                
+                echo "Setting up staging environment..."
 
-              export USE_SWAGGER='true'
-              export MYSQL_DB_NAME='jwtauth_test_staging'
-
-            elif [ "${CIRCLE_BRANCH}" == "production" ]; then
-
-              echo "Setting production environment..."
-              export MYSQL_DB_NAME='jwtauth_test_production'
+                #export NOW_ALIAS='jwtauth-api-staging.now.sh'
               
+            elif [ "${CIRCLE_BRANCH}" == "production" ]; then
+                ## > For listening pushes to 'production' (no testing)
+
+                echo "Setting up production environment..."
+
+                #export NOW_ALIAS='jwtauth-api-production.now.sh'
+                #export NOW_SCALE='2'
+
+            elif [ "${CIRCLE_BRANCH}" == "development" ]; then
+                ## > For listening pushes to 'development' (no testing)
+                ## IMPORTANT!
+                ## make sure you add 'development' to workflow.build.filters below 
+                ## to start listening for branch changes...
+
+                echo "Setting up development environment..."
+
+                #export NOW_ALIAS='jwtauth-api-dev.now.sh'
+                #export NOW_SCALE='1'
+
             else
-              export MYSQL_DB_NAME='jwtauth_test_dev'
-              export MYSQL_SYNC='true'
-              export FIXTURES='true'
+                ## > For listening to misc. branches ('edd', 'eddie' etc.) 
+                ## (initially runs tests and merges to 'development' branch upon finish)
+
+                ## add zeit now deployment
+                #export NOW_ALIAS='jwtauth-api-dev.now.sh'
+                #export NOW_SCALE='1'
             fi
-            
-            # @link https://github.com/etidbury/ts-gql-helpers/blob/master/docs/circleci.md
-            sh ./node_modules/@etidbury/ts-gql-helpers/util/circleci/default.sh
+
+            ## Note: this script also has if [ branch == 'staging']...
+            bash ./node_modules/ts-next-helpers/util/circleci/default.sh
 
 workflows:
   version: 2
@@ -88,5 +115,6 @@ workflows:
               only:
                 - edd
                 - eddie
+                #- development
                 - staging
                 - production
